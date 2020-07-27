@@ -1,19 +1,14 @@
-const validateData = (data = {}, arr = []) => {
-    for (let i = 0; i < arr.length; i++) {
-        const current = arr[i]
-        if (current.reg) {
-            if (current.reg === 'email') {
-                const emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
-                if (!emailReg.test(data[current.key])) {
-                    return current.msg
-                }
-            }
-        } else if (!data[current.key]) {
-            return current.msg
-        }
-    }
-    return false
+const md5 = require('md5-node');
+const {MD5_KEY} = require('../config/key.conf')
+
+/**
+ * 密码 md5加密
+ * @param password
+ */
+function md5_password(password) {
+  return md5(password + MD5_KEY)
 }
+
 module.exports = {
-    validateData
+  md5_password
 }

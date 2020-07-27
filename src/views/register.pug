@@ -2,9 +2,9 @@ extends layout/base
 block vars
   - var title = '注册'
 block header
-  |
+  span
 block footer
-    |
+  span
 block content
   section#wrapper.login-register.login-sidebar(style='background-image:url(/img/background/login-register.jpg);')
     .login-box.card
@@ -19,7 +19,7 @@ block content
           .form-group.m-t-20
             input.form-control(type='text', name='email' placeholder='请输入你的邮箱')
           .form-group
-            input.form-control(type='text', name='username' placeholder='请输入你的用户名')
+            input.form-control(type='text', name='nickname' placeholder='请输入你的昵称')
           .form-group
             input.form-control(type='password', name='password' placeholder='请输入你的密码')
           .form-group
@@ -39,17 +39,17 @@ block content
 
 block script
   script.
-      var loginForm = $("#loginform")
-      loginForm.submit(function (e) {
-          e.preventDefault()
-          var email = $("input[name='email']").val()
-          var password = $("input[name='password']").val()
-          var username = $("input[name='username']").val()
-          httpRequest('/reg', {email, password, username}, function (res) {
-              console.log(res)
-              window.location.href = '/login'
-          }, function (res) {
-              alert(res.msg)
-          })
+    var loginForm = $("#loginform")
+    loginForm.submit(function (e) {
+      e.preventDefault()
+      var email = $("input[name='email']").val()
+      var password = $("input[name='password']").val()
+      var nickname = $("input[name='nickname']").val()
+      httpRequest('/register', {email, password, nickname}, function (res) {
+        console.log(res)
+        window.location.href = '/login'
+      }, function (res) {
+        alert(res.msg)
       })
+    })
 

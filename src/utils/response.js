@@ -19,10 +19,18 @@ class ResponseJson {
   }
 
   error(msg = '', result = {}) {
-    this.ret = {
-      code: respCode.ERROR_CODE,
-      msg,
-      result
+    if (msg instanceof Object) {
+      this.ret = {
+        code: msg.code,
+        msg: msg.msg,
+        result
+      }
+    } else {
+      this.ret = {
+        code: respCode.ERROR_CODE,
+        msg,
+        result
+      }
     }
     return this.ret
   }
