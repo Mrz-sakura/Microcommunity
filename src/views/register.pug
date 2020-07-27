@@ -1,0 +1,55 @@
+extends layout/base
+block vars
+  - var title = '注册'
+block header
+  |
+block footer
+    |
+block content
+  section#wrapper.login-register.login-sidebar(style='background-image:url(/img/background/login-register.jpg);')
+    .login-box.card
+      .card-body
+        form#loginform.form-horizontal.form-material
+          a.text-center.db(href='javascript:void(0)')
+            img(src='/img/logo-icon.png', alt='Home')
+            br
+            img(src='/img/logo-text.png', alt='Home')
+          h3.box-title.m-t-40.m-b-0 开始注册
+          small 创建你的账号~
+          .form-group.m-t-20
+            input.form-control(type='text', name='email' placeholder='请输入你的邮箱')
+          .form-group
+            input.form-control(type='text', name='username' placeholder='请输入你的用户名')
+          .form-group
+            input.form-control(type='password', name='password' placeholder='请输入你的密码')
+          .form-group
+            input.form-control(type='password', placeholder='再次确认密码')
+          .form-group
+            .checkbox.checkbox-primary.p-t-0
+              input#checkbox-signup(type='checkbox')
+              label(for='checkbox-signup') 我同意
+                a(href='#') 用户协议
+          .form-group.text-center.m-t-20
+            button.btn.btn-info.btn-lg.btn-block.text-uppercase.waves-effect.waves-light(type='submit') 注册
+          .form-group.m-b-0
+            .col-sm-12.text-center
+              p 已有账号了?
+                a.text-info.m-l-5(href='/login')
+                  b 去登陆
+
+block script
+  script.
+      var loginForm = $("#loginform")
+      loginForm.submit(function (e) {
+          e.preventDefault()
+          var email = $("input[name='email']").val()
+          var password = $("input[name='password']").val()
+          var username = $("input[name='username']").val()
+          httpRequest('/reg', {email, password, username}, function (res) {
+              console.log(res)
+              window.location.href = '/login'
+          }, function (res) {
+              alert(res.msg)
+          })
+      })
+

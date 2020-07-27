@@ -1,0 +1,57 @@
+extends layout/base
+block vars
+  - var title = '登陆'
+block header
+  span
+block content
+  section#wrapper.login-register.login-sidebar(style='background-image:url(/img/background/login-register.jpg);')
+    .login-box.card
+      .card-body
+        form#loginform.form-horizontal.form-material
+          a.text-center.db(href='javascript:void(0)')
+            img(src='/img/logo-icon.png', alt='Home')
+            br
+            img(src='/img/logo-text.png', alt='Home')
+          .form-group.m-t-40
+            input.form-control(type='text' name='email' placeholder='请输入邮箱~')
+          .form-group
+            input.form-control(type='password' name='password' placeholder='请输入密码~')
+          .form-group
+            .col-md-12
+              .checkbox.checkbox-primary.pull-left.p-t-0
+                input#checkbox-signup(type='checkbox')
+                label(for='checkbox-signup')  记住我
+              a#to-recover.text-dark.pull-right(href='javascript:void(0)')
+                i.fa.fa-lock.m-r-5 忘记密码?
+          .form-group.text-center.m-t-20
+            button.btn.btn-info.btn-lg.btn-block.waves-effect.waves-light(type='submit') 登陆
+          .form-group.m-b-0
+            .col-sm-12.text-center
+              p 还没有账户?
+                a.text-primary.m-l-5(href='/register')
+                  b 去注册
+        form#recoverform.form-horizontal(action='index.html')
+          .form-group
+            h3 重置密码
+            p.text-muted 输入邮箱,我们会发送验证码给你
+          .form-group
+            input.form-control(type='text', required='', placeholder='Email')
+          .form-group.text-center.m-t-20
+            button.btn.btn-primary.btn-lg.btn-block.text-uppercase.waves-effect.waves-light(type='submit') Reset
+
+
+block script
+  script.
+      var loginForm = $("#loginform")
+      loginForm.submit(function (e) {
+          e.preventDefault()
+          var email = $("input[name='email']").val()
+          var password = $("input[name='password']").val()
+
+          httpRequest('/login', {email, password}, function (res) {
+              localStorage.setItem('user_token', res.result.token)
+              setCookie('token', res.result.token)
+              window.location.href = $.query.get('url') || '/'
+          })
+      })
+
