@@ -3,6 +3,8 @@ block vars
   - var title = '登陆'
 block header
   span
+block footer
+  span
 block content
   section#wrapper.login-register.login-sidebar(style='background-image:url(/img/background/login-register.jpg);')
     .login-box.card
@@ -42,16 +44,16 @@ block content
 
 block script
   script.
-      var loginForm = $("#loginform")
-      loginForm.submit(function (e) {
-          e.preventDefault()
-          var email = $("input[name='email']").val()
-          var password = $("input[name='password']").val()
+    var loginForm = $("#loginform")
+    loginForm.submit(function (e) {
+      e.preventDefault()
+      var email = $("input[name='email']").val()
+      var password = $("input[name='password']").val()
 
-          httpRequest('/login', {email, password}, function (res) {
-              localStorage.setItem('user_token', res.result.token)
-              setCookie('token', res.result.token)
-              window.location.href = $.query.get('url') || '/'
-          })
+      httpRequest('/login', {email, password}, function (res) {
+        localStorage.setItem('user_token', res.result.token)
+        setCookie('token', res.result.token)
+        window.location.href = $.query.get('url') || '/'
       })
+    })
 

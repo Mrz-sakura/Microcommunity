@@ -17,5 +17,9 @@ module.exports = {
   REGISTER_FAIL_INFO: {
     code: 1005,
     msg: '注册失败,系统发生错误'
+  },
+  TOKEN_VERIFY_FAIL_INFO:{
+    code: 1006,
+    msg: '传入的token不符'
   }
 }

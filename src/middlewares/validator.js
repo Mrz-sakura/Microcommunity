@@ -1,8 +1,7 @@
 /**
  * Created by Haoxin on 2020/7/27
  */
-const RespJson = require('../utils/response')
-const resp = new RespJson()
+const {ErrorJM} = require('../utils/response')
 const {VALIDATE_INFO} = require("../config/error.conf")
 
 /**
@@ -13,7 +12,7 @@ function dataValidator(validateCallback) {
   async function validate(ctx, next) {
     const error = validateCallback(ctx.request.body)
     if (error) {
-      ctx.body = resp.error(VALIDATE_INFO)
+      ctx.body = new ErrorJM(VALIDATE_INFO)
       return
     }
     await next()

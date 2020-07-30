@@ -2,11 +2,12 @@
  * Created by Haoxin on 2020/7/27
  */
 const {User} = require('../models')
-const {md5_password} = require('../utils')
+const {md5_password, createToken} = require('../utils')
 const {DEFAULT_AVATAR} = require('../config')
-const RespJson = require('../utils/response')
-const resp = new RespJson()
-const {REGISTER_EXIST_INFO, REGISTER_FAIL_INFO} = require('../config/error.conf')
+const {SuccessJM, ErrorJM} = require('../utils/response')
+const {REGISTER_EXIST_INFO, REGISTER_FAIL_INFO, LOGIN_FAIL_INFO} = require('../config/error.conf')
+const Store = require('../utils/store')
+const store = new Store()
 
 /**
  * 获取用户信息
@@ -28,17 +29,33 @@ async function getUserInfo(email, password) {
   return null;
 }
 
+async function login(data) {
+  const user = await getUserInfo(data.email, md5_password(data.password))
+  if (user) {
+    const token = createToken({email: user.email, id: user.id})
+    await store.set(token, {user, time: Date.now()})
+
+    return new SuccessJM('登陆成功', {token})
+  }
+  return new ErrorJM(LOGIN_FAIL_INFO)
+}
+
+/**
+ * 注册
+ * @param {Object} data = ctx.request.body (koa上下文请求体)
+ * @returns {Promise<{msg: *, result: {}, code: number}>}
+ */
 async function register(data) {
   const findResult = await getUserInfo(data.email)
   if (findResult) {
-    return resp.error(REGISTER_EXIST_INFO)
+    return new ErrorJM(REGISTER_EXIST_INFO)
   }
   try {
     await createUser(data)
-    return resp.success('注册成功')
+    return new SuccessJM('注册成功')
   } catch (e) {
     console.log(e)
-    return resp.error(REGISTER_FAIL_INFO)
+    return new ErrorJM(REGISTER_FAIL_INFO)
   }
 }
 
@@ -66,5 +83,6 @@ async function createUser({email, nickname = '', password, gender = 'u', avatar 
 module.exports = {
   getUserInfo,
   createUser,
-  register
+  register,
+  login
 }
