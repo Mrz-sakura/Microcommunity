@@ -16,11 +16,10 @@ class Store {
   }
 
   // 获取 token
-  async get(tk) {
+  async get (tk) {
     try {
       let val = JSON.parse(await this.redis.get(this.key + tk));
       if (val == null) return null;
-      console.log(val, '1111111111111', Date.now() - val.time)
       if (Date.now() - val.time > this.options.timeout) {
         await this.destroy(tk);
         return null;
@@ -32,9 +31,9 @@ class Store {
   }
 
   // 设置 token
-  async set(tk, val) {
+  async set (tk, val) {
     try {
-      val = Object.assign(val, {time: Date.now()})
+      val = Object.assign(val, { time: Date.now() })
       return await this.redis.set(this.key + tk, JSON.stringify(val));
     } catch (err) {
       console.error('Token Store:set Error'.red, err);
@@ -42,7 +41,7 @@ class Store {
   }
 
   // 销毁 token
-  async destroy(tk) {
+  async destroy (tk) {
     try {
       return await this.redis.del(this.key + tk);
     } catch (err) {
