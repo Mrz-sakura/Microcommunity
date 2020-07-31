@@ -10,7 +10,7 @@ class Store {
     this.redis = redis;
     this.key = key || 'TOKEN-';
     this.options = {
-      timeout: 3600 * 24 * 7,   // 7 天
+      timeout: 1000 * 60 * 60 * 24 * 7,   // 7 天
       ...options,
     }
   }
@@ -18,12 +18,14 @@ class Store {
   // 获取 token
   async get(tk) {
     try {
-      let res = JSON.parse(await this.redis.get(this.key + tk));
-      if (Date.now() - res.time > this.options.timeout) {
+      let val = JSON.parse(await this.redis.get(this.key + tk));
+      if (val == null) return null;
+      console.log(val, '1111111111111', Date.now() - val.time)
+      if (Date.now() - val.time > this.options.timeout) {
         await this.destroy(tk);
         return null;
       }
-      return res;
+      return val;
     } catch (err) {
       console.error('Token Store:get Error'.red, err);
     }
@@ -32,6 +34,7 @@ class Store {
   // 设置 token
   async set(tk, val) {
     try {
+      val = Object.assign(val, {time: Date.now()})
       return await this.redis.set(this.key + tk, JSON.stringify(val));
     } catch (err) {
       console.error('Token Store:set Error'.red, err);
