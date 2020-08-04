@@ -12,15 +12,15 @@ block content
         .col-lg-4.col-xlg-3.col-md-5
           .card
             img.card-img(src='/img/background/socialbg.jpg', alt='Card image')
-            |
             .card-img-overlay.card-inverse.social-profile.d-flex
               .align-self-center
                 img.img-circle(src='/img/users/1.jpg', width='100')
-                |
-                h4.card-title= user.username
-                |
-                h6.card-subtitle= user.email
-                |
+                if user
+                  h4.card-title= user.username
+                  h6.card-subtitle= user.email
+                else
+                  h4.card-title 无名字
+                  h6.card-subtitle noName
                 p.text-white
                   | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                   | eiusmod tempor incididunt
@@ -28,27 +28,17 @@ block content
           .card
             .card-body
               small.text-muted Email address
-              |
               h6 hannagover@gmail.com
-              |
               small.text-muted.p-t-30.db Phone
-              |
               h6 +91 654 784 547
-              |
               small.text-muted.p-t-30.db Address
-              |
               h6 71 Pilgrim Avenue Chevy Chase, MD 20815
-              |
               small.text-muted.p-t-30.db Social Profile
-              |
               br
-              |
               button.btn.btn-circle.btn-secondary
                 i.fa.fa-facebook
-              |
               button.btn.btn-circle.btn-secondary
                 i.fa.fa-twitter
-              |
               button.btn.btn-circle.btn-secondary
                 i.fa.fa-youtube
         // Column

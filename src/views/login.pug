@@ -51,9 +51,14 @@ block script
       var password = $("input[name='password']").val()
 
       httpRequest('/login', {email, password}, function (res) {
+        G.success('登陆成功', '页面将在两秒内跳转~')
         localStorage.setItem('user_token', res.result.token)
         setCookie('token', res.result.token)
-        window.location.href = $.query.get('url') || '/'
+        setTimeout(function () {
+          window.location.href = $.query.get('url') || '/'
+        }, 2000)
+      }, function (error) {
+
       })
     })
 

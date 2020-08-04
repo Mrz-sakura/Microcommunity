@@ -10,6 +10,7 @@ html(lang='en')
     meta(name='author', content='')
     link(rel='icon', type='image/png', sizes='16x16', href='/img/favicon.png')
     title #{title}
+    link(href='/plugins/notification/light-theme.min.css', rel='stylesheet')
     link(href='/plugins/bootstrap/css/bootstrap.min.css', rel='stylesheet')
     link(href='/scss/style.css', rel='stylesheet')
   body
@@ -312,7 +313,7 @@ html(lang='en')
   script(src='/plugins/jquery.slimscroll.js')
   script(src='/plugins/jquery.sparkline.min.js')
   script(src='/plugins/sticky-kit.min.js')
+  script(src='/plugins/notification/growl-notification.min.js')
   script(src='/js/waves.js')
   script(src='/js/custom.min.js')
-
   block script
